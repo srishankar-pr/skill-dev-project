@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Question Workspace - Smart Placement Preparation Assistant</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">SP</div>
+        <div class="brand-text">
+          <h1>Smart Placement</h1>
+          <span>Preparation Assistant</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Core Modules</span>
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon">01</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="questions.html" class="nav-link active">
+          <span class="nav-icon">02</span>
+          <span>Python Question Bank</span>
+        </a>
+        <a href="quiz.html" class="nav-link">
+          <span class="nav-icon">03</span>
+          <span>MCQ Quiz Arena</span>
+        </a>
+        <a href="results.html" class="nav-link">
+          <span class="nav-icon">04</span>
+          <span>Quiz Results</span>
+        </a>
+        <a href="progress.html" class="nav-link">
+          <span class="nav-icon">05</span>
+          <span>Progress Analytics</span>
+        </a>
+        <span class="nav-section-label">Technical Support</span>
+        <a href="chatbot.html" class="nav-link">
+          <span class="nav-icon">06</span>
+          <span>Technical Assistant</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="student-mini-card" id="sidebar-student-card" onclick="openProfileModal()" style="cursor:pointer;" title="Click to change your name and profile">
+          <div class="student-avatar" id="sidebar-student-avatar">ST</div>
+          <div class="student-info" style="flex:1;">
+            <strong id="sidebar-student-name">Loading...</strong>
+            <small id="sidebar-student-meta">Click to edit profile</small>
+          </div>
+          <span class="badge badge-category" style="font-size:0.68rem;">Edit</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">Menu</button>
+          <span class="page-breadcrumb">
+            <a href="questions.html" style="color:var(--primary);">Back to Question Bank</a>
+          </span>
+        </div>
+        <div class="topbar-right">
+          <a href="#" id="prev-question-link" class="btn btn-secondary btn-sm">Previous</a>
+          <a href="#" id="next-question-link" class="btn btn-secondary btn-sm">Next</a>
+          <div class="api-status-pill" id="api-status-pill">
+            <span class="status-dot"></span>
+            <span>Connected</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div id="detail-loading" class="state-box">
+          <div class="spinner"></div>
+          <p>Loading problem specification...</p>
+        </div>
+
+        <div id="detail-error" class="state-box" style="display:none;"></div>
+
+        <div id="question-detail-workspace" class="workspace-grid" style="display:none;">
+          <!-- Left Panel: Problem Statement & Examples -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="question-id-tag" id="q-id-label">Question #1</span>
+                <h3 id="q-title" style="font-size:1.25rem; margin-top:4px;">Problem Title</h3>
+              </div>
+              <div id="q-status-slot"></div>
+            </div>
+            <div class="card-body">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
+                <span class="badge badge-category" id="q-category-badge">Category</span>
+                <span id="q-difficulty-slot"></span>
+                <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;" id="q-attempts-count">
+                  0 attempts
+                </span>
+              </div>
+
+              <h4 style="font-size:0.9rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.05em;">
+                Problem Description
+              </h4>
+              <p id="q-description" style="margin-top:8px; margin-bottom:20px; font-size:0.95rem;"></p>
+
+              <h4 style="font-size:0.85rem; color:var(--text-secondary);">Sample Input</h4>
+              <pre class="io-box" id="q-sample-input"></pre>
+
+              <h4 style="font-size:0.85rem; color:var(--text-secondary); margin-top:16px;">Expected Output</h4>
+              <pre class="io-box" id="q-expected-output"></pre>
+
+              <div style="margin-top:20px;">
+                <button type="button" id="btn-toggle-hint" class="btn btn-secondary btn-sm">
+                  Show Approach and Hint
+                </button>
+                <div id="explanation-box" class="hint-box" style="display:none;">
+                  <strong>Optimal Approach and Explanation:</strong>
+                  <p id="q-explanation" style="margin-top:4px;"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel: Solution Editor & Attempt Submission -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Python Solution and Practice Log</h3>
+              <span class="badge badge-not-started">Safe Sandbox Mode (No Server Exec)</span>
+            </div>
+            <div class="card-body">
+              <label for="solution-code" style="display:block; font-size:0.84rem; font-weight:600; margin-bottom:8px;">
+                Your Python 3 Implementation:
+              </label>
+              <textarea id="solution-code" class="code-editor" spellcheck="false"></textarea>
+
+              <div style="display:grid; grid-template-columns: 1fr 160px; gap:14px; margin-top:16px;">
+                <div>
+                  <label for="solution-notes" style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:6px;">
+                    Revision Notes / Time and Space Complexity:
+                  </label>
+                  <input
+                    type="text"
+                    id="solution-notes"
+                    class="form-input"
+                    placeholder="e.g., O(n) time, O(n) space using hash map"
+                  />
+                </div>
+                <div>
+                  <label for="solution-time" style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:6px;">
+                    Time Spent (mins):
+                  </label>
+                  <input type="number" id="solution-time" class="form-input" value="10" min="1" max="300" />
+                </div>
+              </div>
+
+              <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+                <button type="button" id="btn-save-attempt" class="btn btn-secondary">
+                  Save Progress (Attempted)
+                </button>
+                <button type="button" id="btn-mark-completed" class="btn btn-success">
+                  Submit and Mark as Completed
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/questions.js"></script>
+</body>
+</html>

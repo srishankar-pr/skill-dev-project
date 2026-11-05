@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Progress Analytics - Smart Placement Preparation Assistant</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">SP</div>
+        <div class="brand-text">
+          <h1>Smart Placement</h1>
+          <span>Preparation Assistant</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Core Modules</span>
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon">01</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="questions.html" class="nav-link">
+          <span class="nav-icon">02</span>
+          <span>Python Question Bank</span>
+        </a>
+        <a href="quiz.html" class="nav-link">
+          <span class="nav-icon">03</span>
+          <span>MCQ Quiz Arena</span>
+        </a>
+        <a href="results.html" class="nav-link">
+          <span class="nav-icon">04</span>
+          <span>Quiz Results</span>
+        </a>
+        <a href="progress.html" class="nav-link active">
+          <span class="nav-icon">05</span>
+          <span>Progress Analytics</span>
+        </a>
+        <span class="nav-section-label">Technical Support</span>
+        <a href="chatbot.html" class="nav-link">
+          <span class="nav-icon">06</span>
+          <span>Technical Assistant</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="student-mini-card" id="sidebar-student-card" onclick="openProfileModal()" style="cursor:pointer;" title="Click to change your name and profile">
+          <div class="student-avatar" id="sidebar-student-avatar">ST</div>
+          <div class="student-info" style="flex:1;">
+            <strong id="sidebar-student-name">Loading...</strong>
+            <small id="sidebar-student-meta">Click to edit profile</small>
+          </div>
+          <span class="badge badge-category" style="font-size:0.68rem;">Edit</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">Menu</button>
+          <span class="page-breadcrumb">Analytics / Student Progress and Weak Topic Diagnostics</span>
+        </div>
+        <div class="topbar-right">
+          <div class="api-status-pill" id="api-status-pill">
+            <span class="status-dot"></span>
+            <span>Connected</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h2>Placement Preparation Analytics</h2>
+            <p>Dynamic topic-wise mastery, quiz score trajectory, weak area diagnostics, and chronological activity.</p>
+          </div>
+        </div>
+
+        <div id="progress-loading" class="state-box">
+          <div class="spinner"></div>
+          <p>Calculating analytics from SQLite records...</p>
+        </div>
+
+        <div id="progress-error" class="state-box" style="display:none;"></div>
+
+        <div id="progress-content" style="display:none;">
+          <!-- Top KPI Cards -->
+          <section class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Questions Attempted</span>
+                <div class="stat-icon sky">AT</div>
+              </div>
+              <div class="stat-value" id="prog-attempted">0 / 32</div>
+              <div class="stat-meta" id="prog-study-time">0 mins logged</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Questions Completed</span>
+                <div class="stat-icon emerald">OK</div>
+              </div>
+              <div class="stat-value" id="prog-completed">0 (0%)</div>
+              <div class="stat-meta">Verified problem completions</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Average Quiz Score</span>
+                <div class="stat-icon amber">QZ</div>
+              </div>
+              <div class="stat-value" id="prog-avg-quiz">0%</div>
+              <div class="stat-meta" id="prog-high-quiz">Highest Score: 0%</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Overall Readiness Index</span>
+                <div class="stat-icon indigo">RI</div>
+              </div>
+              <div class="stat-value" id="prog-readiness">0%</div>
+              <div class="stat-meta">Weighted Coding (60%) + Quiz (40%)</div>
+            </div>
+          </section>
+
+          <!-- Charts Row -->
+          <div class="grid-equal">
+            <div class="card">
+              <div class="card-header">
+                <h3>Topic-Wise Performance and Mastery Breakdown</h3>
+              </div>
+              <div class="card-body" id="topic-performance-chart"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>Quiz Score Trajectory (%)</h3>
+              </div>
+              <div class="card-body" id="quiz-trend-chart"></div>
+            </div>
+          </div>
+
+          <!-- Weak Topics + Unified Recent Activity -->
+          <div class="grid-2col">
+            <div class="card">
+              <div class="card-header">
+                <h3>Recent Activity Timeline (Coding + Quizzes)</h3>
+              </div>
+              <div class="card-body">
+                <div class="activity-list" id="recent-activity-feed"></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>Priority Focus Areas (Weak Topics)</h3>
+              </div>
+              <div class="card-body">
+                <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:14px;">
+                  Topics below 65% combined mastery are prioritized below for targeted practice:
+                </p>
+                <div class="activity-list" id="weak-topics-container"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/progress.js"></script>
+</body>
+</html>

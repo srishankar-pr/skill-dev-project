@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Smart Placement Preparation Assistant</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">SP</div>
+        <div class="brand-text">
+          <h1>Smart Placement</h1>
+          <span>Preparation Assistant</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Core Modules</span>
+        <a href="index.html" class="nav-link active">
+          <span class="nav-icon">01</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="questions.html" class="nav-link">
+          <span class="nav-icon">02</span>
+          <span>Python Question Bank</span>
+        </a>
+        <a href="quiz.html" class="nav-link">
+          <span class="nav-icon">03</span>
+          <span>MCQ Quiz Arena</span>
+        </a>
+        <a href="results.html" class="nav-link">
+          <span class="nav-icon">04</span>
+          <span>Quiz Results</span>
+        </a>
+        <a href="progress.html" class="nav-link">
+          <span class="nav-icon">05</span>
+          <span>Progress Analytics</span>
+        </a>
+        <span class="nav-section-label">Technical Support</span>
+        <a href="chatbot.html" class="nav-link">
+          <span class="nav-icon">06</span>
+          <span>Technical Assistant</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="student-mini-card" id="sidebar-student-card" onclick="openProfileModal()" style="cursor:pointer;" title="Click to change your name and profile">
+          <div class="student-avatar" id="sidebar-student-avatar">ST</div>
+          <div class="student-info" style="flex:1;">
+            <strong id="sidebar-student-name">Loading...</strong>
+            <small id="sidebar-student-meta">Click to edit profile</small>
+          </div>
+          <span class="badge badge-category" style="font-size:0.68rem;">Edit</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">Menu</button>
+          <span class="page-breadcrumb">Placement Overview / Dashboard</span>
+        </div>
+        <div class="topbar-right">
+          <div class="api-status-pill" id="api-status-pill">
+            <span class="status-dot"></span>
+            <span>Connecting to API...</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+          <div class="hero-text">
+            <h2 id="student-welcome-name">Welcome back</h2>
+            <p id="student-target-role">
+              Track your Python coding mastery, take timed placement MCQ quizzes, and review technical interview fundamentals.
+            </p>
+          </div>
+          <div class="hero-actions">
+            <button type="button" class="btn btn-light" onclick="openProfileModal()">
+              Edit Profile
+            </button>
+            <a href="questions.html" class="btn btn-primary" style="background:#ffffff; color:#1e1b4b;">
+              Solve Python Problems
+            </a>
+            <a href="quiz.html" class="btn btn-light">
+              Take Mock Quiz
+            </a>
+          </div>
+        </section>
+
+        <!-- Loading State -->
+        <div id="dashboard-loading" class="state-box">
+          <div class="spinner"></div>
+          <p>Retrieving real-time metrics from SQLite database...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="dashboard-error" class="state-box" style="display:none;"></div>
+
+        <!-- Dynamic Dashboard Content -->
+        <div id="dashboard-content" style="display:none;">
+          <!-- 5 Key Stat Cards -->
+          <section class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Available Questions</span>
+                <div class="stat-icon indigo">QB</div>
+              </div>
+              <div class="stat-value" id="stat-total-questions">0</div>
+              <div class="stat-meta">Across 6 core placement categories</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Questions Attempted</span>
+                <div class="stat-icon sky">AT</div>
+              </div>
+              <div class="stat-value" id="stat-attempted">0</div>
+              <div class="stat-meta">Unique coding problems started</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Questions Completed</span>
+                <div class="stat-icon emerald">OK</div>
+              </div>
+              <div class="stat-value" id="stat-completed">0</div>
+              <div class="stat-meta">Verified and marked completed</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Average Quiz Score</span>
+                <div class="stat-icon amber">QZ</div>
+              </div>
+              <div class="stat-value" id="stat-avg-quiz">0%</div>
+              <div class="stat-meta" id="stat-quiz-meta">0 Quizzes Taken</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-top">
+                <span class="stat-label">Overall Preparation</span>
+                <span class="badge badge-category" id="stat-readiness-label">Active</span>
+              </div>
+              <div class="stat-value" id="stat-overall-progress">0%</div>
+              <div class="progress-track" style="margin-top:10px;">
+                <div class="progress-fill" id="overall-progress-bar" style="width:0%;"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Main Two-Column Grid -->
+          <div class="grid-2col">
+            <!-- Recently Attempted Questions -->
+            <div class="card">
+              <div class="card-header">
+                <h3>Recently Attempted Questions</h3>
+                <a href="questions.html" class="btn btn-secondary btn-sm">View All 32</a>
+              </div>
+              <div class="card-body">
+                <div class="activity-list" id="recent-attempts-list"></div>
+              </div>
+            </div>
+
+            <!-- Right Column: Recommended Practice Topics + Difficulty Breakdown -->
+            <div style="display:flex; flex-direction:column; gap:22px;">
+              <div class="card">
+                <div class="card-header">
+                  <h3>Recommended Practice Topics</h3>
+                  <a href="progress.html" class="btn btn-secondary btn-sm">Analytics</a>
+                </div>
+                <div class="card-body">
+                  <div class="activity-list" id="recommended-topics-list"></div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3>Completion by Difficulty Level</h3>
+                </div>
+                <div class="card-body" id="difficulty-breakdown-container"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

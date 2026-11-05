@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Results and Answer Review - Smart Placement Preparation Assistant</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">SP</div>
+        <div class="brand-text">
+          <h1>Smart Placement</h1>
+          <span>Preparation Assistant</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Core Modules</span>
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon">01</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="questions.html" class="nav-link">
+          <span class="nav-icon">02</span>
+          <span>Python Question Bank</span>
+        </a>
+        <a href="quiz.html" class="nav-link">
+          <span class="nav-icon">03</span>
+          <span>MCQ Quiz Arena</span>
+        </a>
+        <a href="results.html" class="nav-link active">
+          <span class="nav-icon">04</span>
+          <span>Quiz Results</span>
+        </a>
+        <a href="progress.html" class="nav-link">
+          <span class="nav-icon">05</span>
+          <span>Progress Analytics</span>
+        </a>
+        <span class="nav-section-label">Technical Support</span>
+        <a href="chatbot.html" class="nav-link">
+          <span class="nav-icon">06</span>
+          <span>Technical Assistant</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="student-mini-card" id="sidebar-student-card" onclick="openProfileModal()" style="cursor:pointer;" title="Click to change your name and profile">
+          <div class="student-avatar" id="sidebar-student-avatar">ST</div>
+          <div class="student-info" style="flex:1;">
+            <strong id="sidebar-student-name">Loading...</strong>
+            <small id="sidebar-student-meta">Click to edit profile</small>
+          </div>
+          <span class="badge badge-category" style="font-size:0.68rem;">Edit</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">Menu</button>
+          <span class="page-breadcrumb">Assessments / Quiz Results and Answer Review</span>
+        </div>
+        <div class="topbar-right">
+          <a href="quiz.html" class="btn btn-primary btn-sm">Take Another Quiz</a>
+          <div class="api-status-pill" id="api-status-pill">
+            <span class="status-dot"></span>
+            <span>Connected</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content" id="results-page-container">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h2 id="res-quiz-title">Quiz Assessment Report</h2>
+            <p>Detailed score breakdown, correct vs. incorrect answer analysis, and technical explanations.</p>
+          </div>
+        </div>
+
+        <!-- Score Summary Cards -->
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Questions Correct</span>
+              <div class="stat-icon emerald">OK</div>
+            </div>
+            <div class="stat-value" id="res-score-value">0 / 0</div>
+            <div class="stat-meta">Verified against answer key</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Percentage Score</span>
+              <div class="stat-icon indigo">%</div>
+            </div>
+            <div class="stat-value" id="res-percentage">0%</div>
+            <div class="stat-meta">Saved to SQLite quiz_attempts</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Performance Standing</span>
+              <div class="stat-icon amber">GR</div>
+            </div>
+            <div class="stat-value" id="res-grade" style="font-size:1.25rem;">-</div>
+            <div class="stat-meta">Placement benchmark evaluation</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Completion Time</span>
+              <div class="stat-icon sky">TM</div>
+            </div>
+            <div class="stat-value" id="res-time">0s</div>
+            <div class="stat-meta">Total duration recorded</div>
+          </div>
+        </section>
+
+        <!-- Question-by-Question Review -->
+        <div class="card" style="margin-bottom:26px;">
+          <div class="card-header">
+            <h3>Question-by-Question Answer Review</h3>
+          </div>
+          <div class="card-body" id="res-reviews-list"></div>
+        </div>
+
+        <!-- All Past Quiz Attempts -->
+        <div class="card">
+          <div class="card-header">
+            <h3>All Saved Quiz Attempts (Click Any Attempt to Review)</h3>
+          </div>
+          <div class="card-body" style="padding:0; overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Attempt ID</th>
+                  <th>Quiz Title</th>
+                  <th>Category</th>
+                  <th>Score</th>
+                  <th>Duration</th>
+                  <th>Review</th>
+                </tr>
+              </thead>
+              <tbody id="results-history-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/quiz.js"></script>
+</body>
+</html>

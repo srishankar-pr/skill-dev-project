@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Chatbot - Smart Placement Preparation Assistant</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">SP</div>
+        <div class="brand-text">
+          <h1>Smart Placement</h1>
+          <span>Preparation Assistant</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Core Modules</span>
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon">01</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="questions.html" class="nav-link">
+          <span class="nav-icon">02</span>
+          <span>Python Question Bank</span>
+        </a>
+        <a href="quiz.html" class="nav-link">
+          <span class="nav-icon">03</span>
+          <span>MCQ Quiz Arena</span>
+        </a>
+        <a href="results.html" class="nav-link">
+          <span class="nav-icon">04</span>
+          <span>Quiz Results</span>
+        </a>
+        <a href="progress.html" class="nav-link">
+          <span class="nav-icon">05</span>
+          <span>Progress Analytics</span>
+        </a>
+        <span class="nav-section-label">Technical Support</span>
+        <a href="chatbot.html" class="nav-link active">
+          <span class="nav-icon">06</span>
+          <span>Technical Assistant</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="student-mini-card" id="sidebar-student-card" onclick="openProfileModal()" style="cursor:pointer;" title="Click to change your name and profile">
+          <div class="student-avatar" id="sidebar-student-avatar">ST</div>
+          <div class="student-info" style="flex:1;">
+            <strong id="sidebar-student-name">Loading...</strong>
+            <small id="sidebar-student-meta">Click to edit profile</small>
+          </div>
+          <span class="badge badge-category" style="font-size:0.68rem;">Edit</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">Menu</button>
+          <span class="page-breadcrumb">Support / Rule-Based Technical Knowledge Chatbot</span>
+        </div>
+        <div class="topbar-right">
+          <span class="badge badge-category">Deterministic Rule Engine (chatbot.py)</span>
+          <div class="api-status-pill" id="api-status-pill">
+            <span class="status-dot"></span>
+            <span>Connected</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h2>Technical Interview Knowledge Assistant</h2>
+            <p>
+              Python rule-based keyword matching assistant covering Python, FastAPI, REST APIs, HTTP methods, SQLite/MySQL, SQL, DSA, and Interview Prep.
+            </p>
+          </div>
+        </div>
+
+        <div class="chat-layout">
+          <!-- Main Chat Window -->
+          <div class="chat-container">
+            <div class="chat-messages" id="chat-messages"></div>
+
+            <form id="chat-form" class="chat-input-bar">
+              <input
+                type="text"
+                id="chat-input"
+                class="form-input"
+                placeholder="Ask a technical question (e.g., 'Python lists vs tuples', 'SQLite vs MySQL', 'HTTP methods', 'FastAPI')..."
+                autocomplete="off"
+              />
+              <button type="submit" id="chat-send-btn" class="btn btn-primary">
+                Send
+              </button>
+            </form>
+          </div>
+
+          <!-- Right Sidebar: Supported Topics & Quick Prompts -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Supported Knowledge Domains</h3>
+            </div>
+            <div class="card-body">
+              <p style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:12px;">
+                Click any prompt below to query <code>POST /chat</code> immediately:
+              </p>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('Explain Python lists vs tuples and mutability')">
+                  Python Lists vs. Tuples
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('What are Python decorators, generators, and GIL?')">
+                  Python Decorators and Generators
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('How does FastAPI and Pydantic validation work?')">
+                  FastAPI and Pydantic Architecture
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('Explain REST API principles and status codes')">
+                  REST API Design and Status Codes
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('Explain HTTP methods GET POST PUT PATCH DELETE and idempotency')">
+                  HTTP Methods and Idempotency
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('Difference between SQLite and MySQL')">
+                  SQLite vs. MySQL Comparison
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('Explain SQL JOINs, ACID properties, and SQL injection')">
+                  SQL JOINs, ACID and Security
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('Data structures and algorithms Big O complexity')">
+                  DSA Patterns and Big-O Complexity
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('Technical interview tips and coding round strategy')">
+                  Technical Interview Strategy
+                </button>
+                <button class="btn btn-secondary btn-sm" style="justify-content:flex-start;" onclick="sendPresetQuery('Help')">
+                  Help and Command Menu
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>
